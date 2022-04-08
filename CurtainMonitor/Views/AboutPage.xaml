@@ -37,13 +37,13 @@
                 <Label FontSize="Body" Padding="0,0,0,0">
                     <Label.FormattedText>
                         <FormattedString>
-                            <Span Text="Create a" />
-                            <Span Text="here"
+                            <Span Text="Create a new issue on our " />
+                            <Span Text="github repo"
                 TextColor="Blue"
                 TextDecorations="Underline">
                                 <Span.GestureRecognizers>
                                     <TapGestureRecognizer Command="{Binding OpenWebpageCommand}"
-                                        CommandParameter="https://github.com/Jordan-Sun/real_time_systems" />
+                                        CommandParameter="https://github.com/Jordan-Sun/CurtainMonitor/issues/new" />
                                 </Span.GestureRecognizers>
                             </Span>
                             <Span Text="." />
