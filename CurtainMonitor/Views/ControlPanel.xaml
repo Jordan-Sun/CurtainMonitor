@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:forms="clr-namespace:Xamarin.RangeSlider.Forms;assembly=Xamarin.RangeSlider.Forms"
+             x:Class="CurtainMonitor.Views.ControlPanel"
+             xmlns:vm="clr-namespace:CurtainMonitor.ViewModels"
+             Title="{Binding Title}">
+    
+    <ContentPage.BindingContext>
+        <vm:AboutViewModel />
+    </ContentPage.BindingContext>
+    
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <Color x:Key="Accent">#96d1ff</Color>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <Grid>
+        <StackLayout>
+            <Label Grid.Column="0" BindingContext="{x:Reference Name=RangeSlider}" Text="{Binding LowerValue, StringFormat='{0}'}" VerticalOptions="Center" />
+            <Label Grid.Column="1" BindingContext="{x:Reference Name=RangeSlider}" Text="{Binding UpperValue, StringFormat='{0}'}" VerticalOptions="Center" />
+            <forms:RangeSlider x:Name="RangeSlider" MinimumValue="0" MaximumValue="2000" LowerValue="0" UpperValue="2000" StepValue="100" StepValueContinuously="False" VerticalOptions="Center" TextSize="Body" />
+        </StackLayout>
+    </Grid>
+
+</ContentPage>

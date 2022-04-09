@@ -37,8 +37,8 @@
                 <Label FontSize="Body" Padding="0,0,0,0">
                     <Label.FormattedText>
                         <FormattedString>
-                            <Span Text="Create a new issue on our " />
-                            <Span Text="github repo"
+                            <Span Text="Create a " />
+                            <Span Text="new issue"
                 TextColor="Blue"
                 TextDecorations="Underline">
                                 <Span.GestureRecognizers>
@@ -51,7 +51,7 @@
                     </Label.FormattedText>
                 </Label>
             </StackLayout>
-    </ScrollView>
-</Grid>
+        </ScrollView>
+    </Grid>
 
 </ContentPage>
