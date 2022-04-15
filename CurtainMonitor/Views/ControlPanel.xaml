@@ -117,13 +117,15 @@
             <Label Grid.Row="0" Grid.Column="2" BindingContext="{x:Reference Name=RangeSlider}" Text="{Binding LowerValue, StringFormat='{0}'}" VerticalOptions="End" HorizontalOptions="Center" />
             <Label Grid.Row="0" Grid.Column="3" BindingContext="{x:Reference Name=RangeSlider}" Text="{Binding UpperValue, StringFormat='{0}'}" VerticalOptions="End" HorizontalOptions="Center" />
             <Label Grid.Row="0" Grid.Column="5" BindingContext="{x:Reference Name=RangeSlider}" Text="{Binding MaximumValue, StringFormat='{0}'}" VerticalOptions="End" HorizontalOptions="Start" />
+            <Image Grid.Row="1" Grid.Column="0" VerticalOptions="Start" HorizontalOptions="End" Source="night.png" />
+            <Image Grid.Row="1" Grid.Column="5" VerticalOptions="Start" HorizontalOptions="End" Source="day.png" />
             <forms:RangeSlider Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="4" x:Name="RangeSlider" MinimumValue="0" MaximumValue="1000" LowerValue="300" UpperValue="700" StepValue="50" StepValueContinuously="False" VerticalOptions="Start" HorizontalOptions="FillAndExpand" TextSize="Body" />
         </Grid>
 
         <Button Grid.Row="3" Grid.Column="1" x:Name="RaiseCurtainButton" HorizontalOptions="End" WidthRequest="{Binding Height, Source={x:Reference RaiseCurtainButton}}" />
         <Button Grid.Row="3" Grid.Column="2" x:Name="LowerCurtainButton" HorizontalOptions="Start"  WidthRequest="{Binding Height, Source={x:Reference LowerCurtainButton}}" />
 
-        <Button Grid.Row="3" Grid.Column="3" Grid.ColumnSpan="2" x:Name="LightButton" HorizontalOptions="Center" WidthRequest="{Binding Height, Source={x:Reference LightButton}}" />
+        <Button Grid.Row="3" Grid.Column="4" x:Name="LightButton" HorizontalOptions="Start" WidthRequest="{Binding Height, Source={x:Reference LightButton}}" />
     </Grid>
 
 </ContentPage>
