@@ -7,7 +7,7 @@
              Title="{Binding Title}">
     
     <ContentPage.BindingContext>
-        <vm:AboutViewModel />
+        <vm:ControlPanelModel />
     </ContentPage.BindingContext>
     
     <ContentPage.Resources>
@@ -17,11 +17,113 @@
     </ContentPage.Resources>
 
     <Grid>
-        <StackLayout>
-            <Label Grid.Column="0" BindingContext="{x:Reference Name=RangeSlider}" Text="{Binding LowerValue, StringFormat='{0}'}" VerticalOptions="Center" />
-            <Label Grid.Column="1" BindingContext="{x:Reference Name=RangeSlider}" Text="{Binding UpperValue, StringFormat='{0}'}" VerticalOptions="Center" />
-            <forms:RangeSlider x:Name="RangeSlider" MinimumValue="0" MaximumValue="2000" LowerValue="0" UpperValue="2000" StepValue="100" StepValueContinuously="False" VerticalOptions="Center" TextSize="Body" />
-        </StackLayout>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="80" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="80" />
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="80" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="80" />
+        </Grid.ColumnDefinitions>
+
+        <Grid Grid.Row="1" Grid.Column="1" RowSpacing="5" ColumnSpacing="5" VerticalOptions="Center" HorizontalOptions="Center" >
+            <Grid.RowDefinitions>
+                <RowDefinition Height="40" />
+                <RowDefinition Height="40" />
+            </Grid.RowDefinitions>
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="40" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+
+            <Label Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Text="Indoor Sensor" VerticalOptions="End" HorizontalOptions="Center" />
+            <Ellipse Grid.Row="1" Grid.Column="0" Fill="Red" WidthRequest="20" HeightRequest="20" VerticalOptions="Start" HorizontalOptions="Center" />
+            <Label Grid.Row="1" Grid.Column="1" Text="Disconnected" VerticalOptions="Start" HorizontalOptions="Center" />
+        </Grid>
+
+        <Grid Grid.Row="1" Grid.Column="2" RowSpacing="5" ColumnSpacing="5" VerticalOptions="Center" HorizontalOptions="Center" >
+            <Grid.RowDefinitions>
+                <RowDefinition Height="40" />
+                <RowDefinition Height="40" />
+            </Grid.RowDefinitions>
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="40" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+
+            <Label Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Text="Indoor Sensor" VerticalOptions="End" HorizontalOptions="Center" />
+            <Ellipse Grid.Row="1" Grid.Column="0" Fill="Red" WidthRequest="20" HeightRequest="20" VerticalOptions="Start" HorizontalOptions="Center" />
+            <Label Grid.Row="1" Grid.Column="1" Text="Disconnected" VerticalOptions="Start" HorizontalOptions="Center" />
+        </Grid>
+
+        <Grid Grid.Row="1" Grid.Column="3" RowSpacing="5" ColumnSpacing="5" VerticalOptions="Center" HorizontalOptions="Center" >
+            <Grid.RowDefinitions>
+                <RowDefinition Height="40" />
+                <RowDefinition Height="40" />
+            </Grid.RowDefinitions>
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="40" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+
+            <Label Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Text="Indoor Sensor" VerticalOptions="End" HorizontalOptions="Center" />
+            <Ellipse Grid.Row="1" Grid.Column="0" Fill="Red" WidthRequest="20" HeightRequest="20" VerticalOptions="Start" HorizontalOptions="Center" />
+            <Label Grid.Row="1" Grid.Column="1" Text="Disconnected" VerticalOptions="Start" HorizontalOptions="Center" />
+        </Grid>
+
+        <Grid Grid.Row="1" Grid.Column="4" RowSpacing="5" ColumnSpacing="5" VerticalOptions="Center" HorizontalOptions="Center" >
+            <Grid.RowDefinitions>
+                <RowDefinition Height="40" />
+                <RowDefinition Height="40" />
+            </Grid.RowDefinitions>
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="40" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+
+            <Label Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Text="Indoor Sensor" VerticalOptions="End" HorizontalOptions="Center" />
+            <Ellipse Grid.Row="1" Grid.Column="0" Fill="Red" WidthRequest="20" HeightRequest="20" VerticalOptions="Start" HorizontalOptions="Center" />
+            <Label Grid.Row="1" Grid.Column="1" Text="Disconnected" VerticalOptions="Start" HorizontalOptions="Center" />
+        </Grid>
+
+        <Grid Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="4" RowSpacing="5" ColumnSpacing="5" VerticalOptions="Fill" HorizontalOptions="Fill" >
+            <Grid.RowDefinitions>
+                <RowDefinition Height="80" />
+                <RowDefinition Height="80" />
+            </Grid.RowDefinitions>
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="80" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="80" />
+            </Grid.ColumnDefinitions>
+
+            <Label Grid.Row="0" Grid.Column="0" BindingContext="{x:Reference Name=RangeSlider}" Text="{Binding MinimumValue, StringFormat='{0}'}" VerticalOptions="End" HorizontalOptions="End" />
+            <Label Grid.Row="0" Grid.Column="2" BindingContext="{x:Reference Name=RangeSlider}" Text="{Binding LowerValue, StringFormat='{0}'}" VerticalOptions="End" HorizontalOptions="Center" />
+            <Label Grid.Row="0" Grid.Column="3" BindingContext="{x:Reference Name=RangeSlider}" Text="{Binding UpperValue, StringFormat='{0}'}" VerticalOptions="End" HorizontalOptions="Center" />
+            <Label Grid.Row="0" Grid.Column="5" BindingContext="{x:Reference Name=RangeSlider}" Text="{Binding MaximumValue, StringFormat='{0}'}" VerticalOptions="End" HorizontalOptions="Start" />
+            <forms:RangeSlider Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="4" x:Name="RangeSlider" MinimumValue="0" MaximumValue="1000" LowerValue="300" UpperValue="700" StepValue="50" StepValueContinuously="False" VerticalOptions="Start" HorizontalOptions="FillAndExpand" TextSize="Body" />
+        </Grid>
+
+        <Button Grid.Row="3" Grid.Column="1" x:Name="RaiseCurtainButton" HorizontalOptions="End" WidthRequest="{Binding Height, Source={x:Reference RaiseCurtainButton}}" />
+        <Button Grid.Row="3" Grid.Column="2" x:Name="LowerCurtainButton" HorizontalOptions="Start"  WidthRequest="{Binding Height, Source={x:Reference LowerCurtainButton}}" />
+
+        <Button Grid.Row="3" Grid.Column="3" Grid.ColumnSpan="2" x:Name="LightButton" HorizontalOptions="Center" WidthRequest="{Binding Height, Source={x:Reference LightButton}}" />
     </Grid>
 
 </ContentPage>
