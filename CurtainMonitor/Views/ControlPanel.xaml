@@ -19,10 +19,10 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="80" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
-            <RowDefinition Height="*" />
-            <RowDefinition Height="*" />
-            <RowDefinition Height="80" />
         </Grid.RowDefinitions>
 
         <Grid.ColumnDefinitions>
@@ -122,10 +122,10 @@
             <forms:RangeSlider Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="4" x:Name="RangeSlider" MinimumValue="0" MaximumValue="1000" LowerValue="300" UpperValue="700" StepValue="50" StepValueContinuously="False" VerticalOptions="Start" HorizontalOptions="FillAndExpand" TextSize="Body" />
         </Grid>
 
-        <Button Grid.Row="3" Grid.Column="1" x:Name="RaiseCurtainButton" HorizontalOptions="End" WidthRequest="{Binding Height, Source={x:Reference RaiseCurtainButton}}" />
-        <Button Grid.Row="3" Grid.Column="2" x:Name="LowerCurtainButton" HorizontalOptions="Start"  WidthRequest="{Binding Height, Source={x:Reference LowerCurtainButton}}" />
+        <Button Grid.Row="3" Grid.Column="1" x:Name="RaiseCurtainButton" HeightRequest="200" HorizontalOptions="End" WidthRequest="{Binding Height, Source={x:Reference RaiseCurtainButton}}" />
+        <Button Grid.Row="3" Grid.Column="2" x:Name="LowerCurtainButton" HeightRequest="200" HorizontalOptions="Start"  WidthRequest="{Binding Height, Source={x:Reference LowerCurtainButton}}" />
 
-        <Button Grid.Row="3" Grid.Column="4" x:Name="LightButton" HorizontalOptions="Start" WidthRequest="{Binding Height, Source={x:Reference LightButton}}" />
+        <Button Grid.Row="3" Grid.Column="4" x:Name="LightButton" HeightRequest="200" HorizontalOptions="Start" WidthRequest="{Binding Height, Source={x:Reference LightButton}}" />
     </Grid>
 
 </ContentPage>
