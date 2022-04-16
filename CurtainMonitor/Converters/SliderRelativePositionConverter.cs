@@ -40,7 +40,7 @@ namespace CurtainMonitor
                 return 0;
             }
             // return converted value.
-            return ((currentValue - minValue) * (width + textWidth / 2) / (maxValue - minValue));
+            return ((currentValue - minValue) * (width - textWidth / 2) / (maxValue - minValue) + (textWidth / 2));
         }
 
         public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)

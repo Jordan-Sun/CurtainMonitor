@@ -139,7 +139,7 @@
             <Label Grid.Row="0" Grid.Column="2" x:Name="MaxValueLabel" BindingContext="{x:Reference Name=RangeSlider}" Text="{Binding MaximumValue, StringFormat='{0}'}" VerticalOptions="End" HorizontalOptions="Start" />
             <Image Grid.Row="1" Grid.Column="0" VerticalOptions="Start" HorizontalOptions="End" Source="night.png" />
             <Image Grid.Row="1" Grid.Column="2" VerticalOptions="Start" HorizontalOptions="End" Source="day.png" />
-            <forms:RangeSlider Grid.Row="1" Grid.Column="1" x:Name="RangeSlider" MinimumValue="0" MaximumValue="1000" LowerValue="300" UpperValue="700" StepValue="50" StepValueContinuously="False" VerticalOptions="Start" HorizontalOptions="FillAndExpand" TextSize="Body" />
+            <forms:RangeSlider Grid.Row="1" Grid.Column="1" x:Name="RangeSlider" MinimumValue="0" MaximumValue="1000" LowerValue="300" UpperValue="700" StepValue="1" StepValueContinuously="True" VerticalOptions="Start" HorizontalOptions="FillAndExpand" TextSize="Body" />
         </Grid>
 
         <Button Grid.Row="3" Grid.Column="1" x:Name="RaiseCurtainButton" HeightRequest="200" HorizontalOptions="End" WidthRequest="{Binding Height, Source={x:Reference RaiseCurtainButton}}" />
