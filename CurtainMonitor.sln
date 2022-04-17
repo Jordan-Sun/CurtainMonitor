@@ -9,7 +9,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CurtainMonitor.Android", "C
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CurtainMonitor.iOS", "CurtainMonitor.iOS\CurtainMonitor.iOS.csproj", "{C7CD53E1-0196-458C-A23C-7FF5A725189D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CurtainMonitor", "CurtainMonitor\CurtainMonitor.csproj", "{546D9DA2-1757-499A-AE25-B3AC3D096735}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CurtainMonitor", "CurtainMonitor\CurtainMonitor.csproj", "{546D9DA2-1757-499A-AE25-B3AC3D096735}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -11,6 +11,9 @@ namespace CurtainMonitor.Views
         {
             InitializeComponent();
         }
-
+        private void CurtainReleased(object sender, EventArgs e)
+        {
+            Console.WriteLine("Stopped toggling curtain");
+        }
     }
 }

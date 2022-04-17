@@ -2,6 +2,7 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:forms="clr-namespace:Xamarin.RangeSlider.Forms;assembly=Xamarin.RangeSlider.Forms"
+             xmlns:local="clr-namespace:CurtainMonitor"
              x:Class="CurtainMonitor.Views.ControlPanel"
              xmlns:vm="clr-namespace:CurtainMonitor.ViewModels"
              Title="{Binding Title}">
@@ -13,16 +14,17 @@
     <ContentPage.Resources>
         <ResourceDictionary>
             <Color x:Key="Accent">#96d1ff</Color>
+            <local:SliderRelativePositionConverter x:Key="SliderRelativePositionConverter" />
         </ResourceDictionary>
     </ContentPage.Resources>
 
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="80" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
-            <RowDefinition Height="*" />
-            <RowDefinition Height="*" />
-            <RowDefinition Height="80" />
         </Grid.RowDefinitions>
 
         <Grid.ColumnDefinitions>
@@ -48,6 +50,10 @@
             <Label Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Text="Indoor Sensor" VerticalOptions="End" HorizontalOptions="Center" />
             <Ellipse Grid.Row="1" Grid.Column="0" Fill="Red" WidthRequest="20" HeightRequest="20" VerticalOptions="Start" HorizontalOptions="Center" />
             <Label Grid.Row="1" Grid.Column="1" Text="Disconnected" VerticalOptions="Start" HorizontalOptions="Center" />
+            
+            <Grid.GestureRecognizers>
+                <TapGestureRecognizer Command="{Binding ConnectCommand}" CommandParameter="Indoor" />
+            </Grid.GestureRecognizers>
         </Grid>
 
         <Grid Grid.Row="1" Grid.Column="2" RowSpacing="5" ColumnSpacing="5" VerticalOptions="Center" HorizontalOptions="Center" >
@@ -61,9 +67,13 @@
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
 
-            <Label Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Text="Indoor Sensor" VerticalOptions="End" HorizontalOptions="Center" />
+            <Label Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Text="Outdoor Sensor" VerticalOptions="End" HorizontalOptions="Center" />
             <Ellipse Grid.Row="1" Grid.Column="0" Fill="Red" WidthRequest="20" HeightRequest="20" VerticalOptions="Start" HorizontalOptions="Center" />
             <Label Grid.Row="1" Grid.Column="1" Text="Disconnected" VerticalOptions="Start" HorizontalOptions="Center" />
+
+            <Grid.GestureRecognizers>
+                <TapGestureRecognizer Command="{Binding ConnectCommand}" CommandParameter="Outdoor" />
+            </Grid.GestureRecognizers>
         </Grid>
 
         <Grid Grid.Row="1" Grid.Column="3" RowSpacing="5" ColumnSpacing="5" VerticalOptions="Center" HorizontalOptions="Center" >
@@ -77,9 +87,13 @@
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
 
-            <Label Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Text="Indoor Sensor" VerticalOptions="End" HorizontalOptions="Center" />
+            <Label Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Text="Curtain" VerticalOptions="End" HorizontalOptions="Center" />
             <Ellipse Grid.Row="1" Grid.Column="0" Fill="Red" WidthRequest="20" HeightRequest="20" VerticalOptions="Start" HorizontalOptions="Center" />
             <Label Grid.Row="1" Grid.Column="1" Text="Disconnected" VerticalOptions="Start" HorizontalOptions="Center" />
+            
+            <Grid.GestureRecognizers>
+                <TapGestureRecognizer Command="{Binding ConnectCommand}" CommandParameter="Curtain" />
+            </Grid.GestureRecognizers>
         </Grid>
 
         <Grid Grid.Row="1" Grid.Column="4" RowSpacing="5" ColumnSpacing="5" VerticalOptions="Center" HorizontalOptions="Center" >
@@ -93,12 +107,16 @@
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
 
-            <Label Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Text="Indoor Sensor" VerticalOptions="End" HorizontalOptions="Center" />
+            <Label Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Text="Light" VerticalOptions="End" HorizontalOptions="Center" />
             <Ellipse Grid.Row="1" Grid.Column="0" Fill="Red" WidthRequest="20" HeightRequest="20" VerticalOptions="Start" HorizontalOptions="Center" />
             <Label Grid.Row="1" Grid.Column="1" Text="Disconnected" VerticalOptions="Start" HorizontalOptions="Center" />
+            
+            <Grid.GestureRecognizers>
+                <TapGestureRecognizer Command="{Binding ConnectCommand}" CommandParameter="Light" />
+            </Grid.GestureRecognizers>
         </Grid>
 
-        <Grid Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="4" RowSpacing="5" ColumnSpacing="5" VerticalOptions="Fill" HorizontalOptions="Fill" >
+        <Grid Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="4" RowSpacing="5" ColumnSpacing="5" VerticalOptions="Center" HorizontalOptions="Fill" >
             <Grid.RowDefinitions>
                 <RowDefinition Height="80" />
                 <RowDefinition Height="80" />
@@ -107,25 +125,43 @@
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="80" />
                 <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="80" />
             </Grid.ColumnDefinitions>
 
             <Label Grid.Row="0" Grid.Column="0" BindingContext="{x:Reference Name=RangeSlider}" Text="{Binding MinimumValue, StringFormat='{0}'}" VerticalOptions="End" HorizontalOptions="End" />
-            <Label Grid.Row="0" Grid.Column="2" BindingContext="{x:Reference Name=RangeSlider}" Text="{Binding LowerValue, StringFormat='{0}'}" VerticalOptions="End" HorizontalOptions="Center" />
-            <Label Grid.Row="0" Grid.Column="3" BindingContext="{x:Reference Name=RangeSlider}" Text="{Binding UpperValue, StringFormat='{0}'}" VerticalOptions="End" HorizontalOptions="Center" />
-            <Label Grid.Row="0" Grid.Column="5" BindingContext="{x:Reference Name=RangeSlider}" Text="{Binding MaximumValue, StringFormat='{0}'}" VerticalOptions="End" HorizontalOptions="Start" />
+
+            <Label Grid.Row="0" Grid.Column="1" BindingContext="{x:Reference Name=RangeSlider}" Text="{Binding LowerValue, StringFormat='{0}'}" VerticalOptions="End" HorizontalOptions="Start" HorizontalTextAlignment="End">
+                <Label.WidthRequest>
+                    <MultiBinding Converter="{StaticResource SliderRelativePositionConverter}">
+                        <Binding Source="{x:Reference Name=RangeSlider}" Path="LowerValue"/>
+                        <Binding Source="{x:Reference Name=RangeSlider}" Path="MinimumValue" />
+                        <Binding Source="{x:Reference Name=RangeSlider}" Path="MaximumValue" />
+                        <Binding Source="{x:Reference Name=RangeSlider}" Path="Width" />
+                        <Binding Source="{x:Reference Name=MaxValueLabel}" Path="Width" />
+                    </MultiBinding>
+                </Label.WidthRequest>
+            </Label>
+            <Label Grid.Row="0" Grid.Column="1" BindingContext="{x:Reference Name=RangeSlider}" Text="{Binding UpperValue, StringFormat='{0}'}" VerticalOptions="End" HorizontalOptions="Start" HorizontalTextAlignment="End">
+                <Label.WidthRequest>
+                    <MultiBinding Converter="{StaticResource SliderRelativePositionConverter}">
+                        <Binding Source="{x:Reference Name=RangeSlider}" Path="UpperValue"/>
+                        <Binding Source="{x:Reference Name=RangeSlider}" Path="MinimumValue" />
+                        <Binding Source="{x:Reference Name=RangeSlider}" Path="MaximumValue" />
+                        <Binding Source="{x:Reference Name=RangeSlider}" Path="Width" />
+                        <Binding Source="{x:Reference Name=MaxValueLabel}" Path="Width" />
+                    </MultiBinding>
+                </Label.WidthRequest>
+            </Label>
+            <Label Grid.Row="0" Grid.Column="2" x:Name="MaxValueLabel" BindingContext="{x:Reference Name=RangeSlider}" Text="{Binding MaximumValue, StringFormat='{0}'}" VerticalOptions="End" HorizontalOptions="Start" />
             <Image Grid.Row="1" Grid.Column="0" VerticalOptions="Start" HorizontalOptions="End" Source="night.png" />
-            <Image Grid.Row="1" Grid.Column="5" VerticalOptions="Start" HorizontalOptions="End" Source="day.png" />
-            <forms:RangeSlider Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="4" x:Name="RangeSlider" MinimumValue="0" MaximumValue="1000" LowerValue="300" UpperValue="700" StepValue="50" StepValueContinuously="False" VerticalOptions="Start" HorizontalOptions="FillAndExpand" TextSize="Body" />
+            <Image Grid.Row="1" Grid.Column="2" VerticalOptions="Start" HorizontalOptions="End" Source="day.png" />
+            <forms:RangeSlider Grid.Row="1" Grid.Column="1" x:Name="RangeSlider" MinimumValue="0" MaximumValue="1000" LowerValue="300" UpperValue="700" StepValue="1" StepValueContinuously="True" VerticalOptions="Start" HorizontalOptions="FillAndExpand" TextSize="Body" />
         </Grid>
 
-        <Button Grid.Row="3" Grid.Column="1" x:Name="RaiseCurtainButton" HorizontalOptions="End" WidthRequest="{Binding Height, Source={x:Reference RaiseCurtainButton}}" />
-        <Button Grid.Row="3" Grid.Column="2" x:Name="LowerCurtainButton" HorizontalOptions="Start"  WidthRequest="{Binding Height, Source={x:Reference LowerCurtainButton}}" />
+        <Button Grid.Row="3" Grid.Column="1" x:Name="RaiseCurtainButton" Command="{Binding CurtainCommand}" CommandParameter="Raise" Released="CurtainReleased" HeightRequest="200" HorizontalOptions="End" WidthRequest="{Binding Height, Source={x:Reference RaiseCurtainButton}}" />
+        <Button Grid.Row="3" Grid.Column="2" x:Name="LowerCurtainButton" Command="{Binding CurtainCommand}" CommandParameter="Lower" Released="CurtainReleased" HeightRequest="200" HorizontalOptions="Start"  WidthRequest="{Binding Height, Source={x:Reference LowerCurtainButton}}" />
 
-        <Button Grid.Row="3" Grid.Column="4" x:Name="LightButton" HorizontalOptions="Start" WidthRequest="{Binding Height, Source={x:Reference LightButton}}" />
+        <Button Grid.Row="3" Grid.Column="4" x:Name="LightButton" Command="{Binding LightCommand}" HeightRequest="200" HorizontalOptions="Start" WidthRequest="{Binding Height, Source={x:Reference LightButton}}" />
     </Grid>
 
 </ContentPage>
