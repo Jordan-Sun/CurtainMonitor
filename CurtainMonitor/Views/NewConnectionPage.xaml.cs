@@ -8,14 +8,14 @@ using Xamarin.Forms.Xaml;
 
 namespace CurtainMonitor.Views
 {
-    public partial class NewItemPage : ContentPage
+    public partial class NewConnectionPage : ContentPage
     {
         public Item Item { get; set; }
 
-        public NewItemPage()
+        public NewConnectionPage()
         {
             InitializeComponent();
-            BindingContext = new NewItemViewModel();
+            BindingContext = new NewConnectionViewModel();
         }
     }
 }

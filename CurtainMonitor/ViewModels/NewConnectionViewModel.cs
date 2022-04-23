@@ -1,4 +1,4 @@
-﻿using CurtainMonitor.Models;
+﻿using CurtainMonitor.Services;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -7,12 +7,28 @@ using Xamarin.Forms;
 
 namespace CurtainMonitor.ViewModels
 {
-    public class NewItemViewModel : BaseViewModel
+    [QueryProperty("ClientId", "ClientId")]
+    public class NewConnectionViewModel : BaseViewModel
     {
-        private string text;
-        private string description;
+        private string host;
+        private string port;
 
-        public NewItemViewModel()
+        private IClient client;
+        private string clientId;
+        public string ClientId
+        {
+            get
+            {
+                return clientId;
+            }
+            set
+            {
+                clientId = value;
+                client = Controller.GetClient(value);
+            }
+        }
+
+        public NewConnectionViewModel()
         {
             SaveCommand = new Command(OnSave, ValidateSave);
             CancelCommand = new Command(OnCancel);
@@ -22,20 +38,20 @@ namespace CurtainMonitor.ViewModels
 
         private bool ValidateSave()
         {
-            return !String.IsNullOrWhiteSpace(text)
-                && !String.IsNullOrWhiteSpace(description);
+            return !String.IsNullOrWhiteSpace(host)
+                && Int32.TryParse(port, out _);
         }
-
+        
         public string Text
         {
-            get => text;
-            set => SetProperty(ref text, value);
+            get => host;
+            set => SetProperty(ref host, value);
         }
 
         public string Description
         {
-            get => description;
-            set => SetProperty(ref description, value);
+            get => port;
+            set => SetProperty(ref port, value);
         }
 
         public Command SaveCommand { get; }
@@ -46,18 +62,10 @@ namespace CurtainMonitor.ViewModels
             // This will pop the current page off the navigation stack
             await Shell.Current.GoToAsync("..");
         }
-
+        
         private async void OnSave()
         {
-            Item newItem = new Item()
-            {
-                Id = Guid.NewGuid().ToString(),
-                Text = Text,
-                Description = Description
-            };
-
-            await DataStore.AddItemAsync(newItem);
-
+            client.Connect(host, Int32.Parse(port));
             // This will pop the current page off the navigation stack
             await Shell.Current.GoToAsync("..");
         }

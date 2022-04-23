@@ -47,7 +47,7 @@
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
 
-            <Label Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Text="Indoor Sensor" VerticalOptions="End" HorizontalOptions="Center" />
+            <Label Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Text="Indoor" VerticalOptions="End" HorizontalOptions="Center" FontSize="Medium" />
             <Ellipse Grid.Row="1" Grid.Column="0" Fill="{Binding IndoorIndicationLight}" WidthRequest="20" HeightRequest="20" VerticalOptions="Start" HorizontalOptions="Center" />
             <Label Grid.Row="1" Grid.Column="1" Text="{Binding IndoorIndicationText}" VerticalOptions="Start" HorizontalOptions="Center" />
             
@@ -67,7 +67,7 @@
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
 
-            <Label Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Text="Outdoor Sensor" VerticalOptions="End" HorizontalOptions="Center" />
+            <Label Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Text="Outdoor" VerticalOptions="End" HorizontalOptions="Center" FontSize="Medium" />
             <Ellipse Grid.Row="1" Grid.Column="0" Fill="{Binding OutdoorIndicationLight}" WidthRequest="20" HeightRequest="20" VerticalOptions="Start" HorizontalOptions="Center" />
             <Label Grid.Row="1" Grid.Column="1" Text="{Binding OutdoorIndicationText}" VerticalOptions="Start" HorizontalOptions="Center" />
 
@@ -87,7 +87,7 @@
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
 
-            <Label Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Text="Curtain" VerticalOptions="End" HorizontalOptions="Center" />
+            <Label Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Text="Curtain" VerticalOptions="End" HorizontalOptions="Center" FontSize="Medium" />
             <Ellipse Grid.Row="1" Grid.Column="0" Fill="{Binding CurtainIndicationLight}" WidthRequest="20" HeightRequest="20" VerticalOptions="Start" HorizontalOptions="Center" />
             <Label Grid.Row="1" Grid.Column="1" Text="{Binding CurtainIndicationText}" VerticalOptions="Start" HorizontalOptions="Center" />
             
@@ -107,7 +107,7 @@
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
 
-            <Label Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Text="Light" VerticalOptions="End" HorizontalOptions="Center" />
+            <Label Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Text="Light" VerticalOptions="End" HorizontalOptions="Center" FontSize="Medium" />
             <Ellipse Grid.Row="1" Grid.Column="0" Fill="{Binding LightIndicationLight}" WidthRequest="20" HeightRequest="20" VerticalOptions="Start" HorizontalOptions="Center" />
             <Label Grid.Row="1" Grid.Column="1" Text="{Binding LightIndicationText}" VerticalOptions="Start" HorizontalOptions="Center" />
             
@@ -128,9 +128,9 @@
                 <ColumnDefinition Width="80" />
             </Grid.ColumnDefinitions>
 
-            <Label Grid.Row="0" Grid.Column="0" BindingContext="{x:Reference Name=RangeSlider}" Text="{Binding MinimumValue, StringFormat='{0}'}" VerticalOptions="End" HorizontalOptions="End" />
+            <Label Grid.Row="0" Grid.Column="0" BindingContext="{x:Reference Name=RangeSlider}" Text="{Binding MinimumValue, StringFormat='{0}'}" VerticalOptions="End" HorizontalOptions="End" FontSize="Medium" />
 
-            <Label Grid.Row="0" Grid.Column="1" BindingContext="{x:Reference Name=RangeSlider}" Text="{Binding LowerValue, StringFormat='{0}'}" VerticalOptions="End" HorizontalOptions="Start" HorizontalTextAlignment="End">
+            <Label Grid.Row="0" Grid.Column="1" BindingContext="{x:Reference Name=RangeSlider}" Text="{Binding LowerValue, StringFormat='{0}'}" VerticalOptions="End" HorizontalOptions="Start" HorizontalTextAlignment="End" FontSize="Medium">
                 <Label.WidthRequest>
                     <MultiBinding Converter="{StaticResource SliderRelativePositionConverter}">
                         <Binding Source="{x:Reference Name=RangeSlider}" Path="LowerValue"/>
@@ -141,7 +141,7 @@
                     </MultiBinding>
                 </Label.WidthRequest>
             </Label>
-            <Label Grid.Row="0" Grid.Column="1" BindingContext="{x:Reference Name=RangeSlider}" Text="{Binding UpperValue, StringFormat='{0}'}" VerticalOptions="End" HorizontalOptions="Start" HorizontalTextAlignment="End">
+            <Label Grid.Row="0" Grid.Column="1" BindingContext="{x:Reference Name=RangeSlider}" Text="{Binding UpperValue, StringFormat='{0}'}" VerticalOptions="End" HorizontalOptions="Start" HorizontalTextAlignment="End" FontSize="Medium">
                 <Label.WidthRequest>
                     <MultiBinding Converter="{StaticResource SliderRelativePositionConverter}">
                         <Binding Source="{x:Reference Name=RangeSlider}" Path="UpperValue"/>
@@ -152,10 +152,10 @@
                     </MultiBinding>
                 </Label.WidthRequest>
             </Label>
-            <Label Grid.Row="0" Grid.Column="2" x:Name="MaxValueLabel" BindingContext="{x:Reference Name=RangeSlider}" Text="{Binding MaximumValue, StringFormat='{0}'}" VerticalOptions="End" HorizontalOptions="Start" />
+            <Label Grid.Row="0" Grid.Column="2" x:Name="MaxValueLabel" BindingContext="{x:Reference Name=RangeSlider}" Text="{Binding MaximumValue, StringFormat='{0}'}" VerticalOptions="End" HorizontalOptions="Start" FontSize="Medium" />
 
             <Image Grid.Row="1" Grid.Column="0" VerticalOptions="Center" HorizontalOptions="End" Source="brightness.png" HeightRequest="40" WidthRequest="40" />
-            <forms:RangeSlider Grid.Row="1" Grid.Column="1" x:Name="RangeSlider" MinimumValue="0" MaximumValue="1000" LowerValue="300" UpperValue="700" StepValue="1" StepValueContinuously="True" VerticalOptions="Center" HorizontalOptions="FillAndExpand" TextSize="Body" />
+            <forms:RangeSlider Grid.Row="1" Grid.Column="1" x:Name="RangeSlider" MinimumValue="0" MaximumValue="1000" LowerValue="300" UpperValue="500" StepValue="1" StepValueContinuously="True" VerticalOptions="Center" HorizontalOptions="FillAndExpand" TextSize="Medium" />
         </Grid>
 
         <ImageButton Source="curtain-raise.png" Grid.Row="3" Grid.Column="1" CornerRadius="10" x:Name="RaiseCurtainButton" Command="{Binding CurtainCommand}" CommandParameter="Raise" Released="CurtainReleased" HeightRequest="200" VerticalOptions="Center" HorizontalOptions="End" WidthRequest="{Binding Height, Source={x:Reference RaiseCurtainButton}}" />

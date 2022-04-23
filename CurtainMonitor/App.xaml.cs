@@ -12,8 +12,8 @@ namespace CurtainMonitor
         public App()
         {
             InitializeComponent();
-
-            DependencyService.Register<MockDataStore>();
+            
+            DependencyService.Register<CommunicationController>();
             MainPage = new AppShell();
         }
 

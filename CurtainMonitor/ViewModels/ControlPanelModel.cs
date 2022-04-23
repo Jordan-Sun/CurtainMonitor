@@ -1,4 +1,6 @@
-﻿using System;
+﻿using CurtainMonitor.Services;
+using CurtainMonitor.Views;
+using System;
 using System.Windows.Input;
 using Xamarin.Essentials;
 using Xamarin.Forms;
@@ -6,7 +8,7 @@ using System.Diagnostics;
 
 namespace CurtainMonitor.ViewModels
 {
-    public class ControlPanelModel : BaseViewModel
+    public class ControlPanelModel : BaseViewModel, IStatusChanged
     {
         /* Indoor Properties */
         private bool indoorConnected;
@@ -49,10 +51,9 @@ namespace CurtainMonitor.ViewModels
         }
         
         /* Indoor Functions */
-        private void ConnectIndoor()
+        private async void ConnectIndoor()
         {
-            IndoorConnected = true;
-            Debug.WriteLine("Indoor");
+            await Shell.Current.GoToAsync($"{nameof(NewConnectionPage)}?{nameof(NewConnectionViewModel.ClientId)}=Indoor");
         }
 
         /* Outdoor Properties */
@@ -96,10 +97,9 @@ namespace CurtainMonitor.ViewModels
         }
 
         /* Outdoor Functions */
-        private void ConnectOutdoor()
+        private async void ConnectOutdoor()
         {
-            OutdoorConnected = true;
-            Debug.WriteLine("Outdoor");
+            await Shell.Current.GoToAsync($"{nameof(NewConnectionPage)}?{nameof(NewConnectionViewModel.ClientId)}=Outdoor");
         }
 
         /* Curtain Properties */
@@ -145,10 +145,9 @@ namespace CurtainMonitor.ViewModels
         public ICommand CurtainCommand { get; }
         
         /* Curtain Functions */
-        private void ConnectCurtain()
+        private async void ConnectCurtain()
         {
-            CurtainConnected = true;
-            Debug.WriteLine("Connected to curtain");
+            await Shell.Current.GoToAsync($"{nameof(NewConnectionPage)}?{nameof(NewConnectionViewModel.ClientId)}=Curtain");
         }
         private void ToggleCurtain(string direction)
         {
@@ -196,14 +195,21 @@ namespace CurtainMonitor.ViewModels
         public ICommand LightCommand { get; }
 
         /* Light Functions */
-        private void ConnectLight()
+        private async void ConnectLight()
         {
-            LightConnected = true;
-            Debug.WriteLine("Connected to light");
+            await Shell.Current.GoToAsync($"{nameof(NewConnectionPage)}?{nameof(NewConnectionViewModel.ClientId)}=Light");
         }
         private void ToggleLight()
         {
             Debug.WriteLine("Toggled light");
+        }
+
+        public void OnControllerStatusChanged()
+        {
+            IndoorConnected = Controller.Indoor.IsConnected;
+            OutdoorConnected = Controller.Outdoor.IsConnected;
+            CurtainConnected = Controller.Curtain.IsConnected;
+            LightConnected = Controller.Light.IsConnected;
         }
 
         /* Main Model */
@@ -249,10 +255,12 @@ namespace CurtainMonitor.ViewModels
                 return LightConnected;
             });
 
-            IndoorConnected = false;
-            OutdoorConnected = false;
-            CurtainConnected = false;
-            LightConnected = false;
+            IndoorConnected = Controller.Indoor.IsConnected;
+            OutdoorConnected = Controller.Outdoor.IsConnected;
+            CurtainConnected = Controller.Curtain.IsConnected;
+            LightConnected = Controller.Light.IsConnected;
+
+            Controller.Recipient = this;
         }
         public ICommand ConnectCommand { get; }
 

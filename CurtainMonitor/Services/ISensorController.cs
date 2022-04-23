@@ -4,9 +4,8 @@ using System.Text;
 
 namespace CurtainMonitor.Services
 {
-    class SocketTransmission
+    public interface ISensorController
     {
-        // socket
-        
+        void OnNewData();
     }
 }
