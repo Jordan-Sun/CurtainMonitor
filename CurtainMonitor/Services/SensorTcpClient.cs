@@ -4,6 +4,7 @@ using System.IO;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Net.Sockets;
+using Xamarin.Forms;
 using System.Diagnostics;
 
 namespace CurtainMonitor.Services
@@ -72,6 +73,23 @@ namespace CurtainMonitor.Services
             try
             {
                 client = new TcpClient(server, port);
+                Device.StartTimer(new TimeSpan(0, 0, 1), () =>
+                {
+                    /* read from sensor every second */
+                    try
+                    {
+                        Read();
+                        return true; /* run again */
+                    }
+                    catch
+                    {
+                        /* failed to read from sensor, probably disconnected */
+                        client.Close();
+                        client = null;
+                        Recipient?.OnControllerStatusChanged();
+                        return false; /* stop */
+                    }
+                });
                 Debug.WriteLine("Connected to sensor at " + server + " on port " + port);
                 return true;
             }
@@ -86,14 +104,13 @@ namespace CurtainMonitor.Services
             }
         }
 
-        public SensorPacket Read()
+        public void Read()
         {
-            SensorPacket packet = default(SensorPacket);
             NetworkStream stream = client.GetStream();
             BinaryFormatter formatter = new BinaryFormatter();
             try
             {
-                packet = (SensorPacket) formatter.Deserialize(stream);
+                SensorPacket packet = (SensorPacket) formatter.Deserialize(stream);
                 if (lastReceived is SensorPacket lastReceivedPacket)
                 {
                     latency = packet.timestamp - lastReceivedPacket.timestamp;
@@ -110,7 +127,6 @@ namespace CurtainMonitor.Services
             {
                 stream.Close();
             }
-            return packet;
         }
     }
 }
