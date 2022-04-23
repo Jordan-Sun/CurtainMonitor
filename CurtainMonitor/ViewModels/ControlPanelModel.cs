@@ -8,14 +8,209 @@ namespace CurtainMonitor.ViewModels
 {
     public class ControlPanelModel : BaseViewModel
     {
-        private bool indoorConnected = false;
-        private bool outdoorConnected = false;
-        private bool curtainConnected = false;
-        private bool lightConnected = false;
+        /* Indoor Properties */
+        private bool indoorConnected;
+        public bool IndoorConnected
+        {
+            private set
+            {
+                SetProperty(ref indoorConnected, value);
+                IndoorIndicationLight = value ? Color.Green : Color.Red;
+                IndoorIndicationText = value ? "Connected" : "Disconnected";
+            }
+            get
+            {
+                return indoorConnected;
+            }
+        }
+        private Color indoorIndicationLight;
+        public Color IndoorIndicationLight
+        {
+            private set
+            {
+                SetProperty(ref indoorIndicationLight, value);
+            }
+            get
+            {
+                return indoorIndicationLight;
+            }
+        }
+        private String indoorIndicationText;
+        public String IndoorIndicationText
+        {
+            private set
+            {
+                SetProperty(ref indoorIndicationText, value);
+            }
+            get
+            {
+                return indoorIndicationText;
+            }
+        }
         
+        /* Indoor Functions */
+        private void ConnectIndoor()
+        {
+            IndoorConnected = true;
+            Debug.WriteLine("Indoor");
+        }
+
+        /* Outdoor Properties */
+        private bool outdoorConnected;
+        public bool OutdoorConnected
+        {
+            private set
+            {
+                SetProperty(ref outdoorConnected, value);
+                OutdoorIndicationLight = value ? Color.Green : Color.Red;
+                OutdoorIndicationText = value ? "Connected" : "Disconnected";
+            }
+            get
+            {
+                return outdoorConnected;
+            }
+        }
+        private Color outdoorIndicationLight;
+        public Color OutdoorIndicationLight
+        {
+            private set
+            {
+                SetProperty(ref outdoorIndicationLight, value);
+            }
+            get
+            {
+                return outdoorIndicationLight;
+            }
+        }
+        private String outdoorIndicationText;
+        public String OutdoorIndicationText
+        {
+            private set
+            {
+                SetProperty(ref outdoorIndicationText, value);
+            }
+            get
+            {
+                return outdoorIndicationText;
+            }
+        }
+
+        /* Outdoor Functions */
+        private void ConnectOutdoor()
+        {
+            OutdoorConnected = true;
+            Debug.WriteLine("Outdoor");
+        }
+
+        /* Curtain Properties */
+        private bool curtainConnected;
+        public bool CurtainConnected
+        {
+            private set
+            {
+                SetProperty(ref curtainConnected, value);
+                CurtainIndicationLight = value ? Color.Green : Color.Red;
+                CurtainIndicationText = value ? "Connected" : "Disconnected";
+                (CurtainCommand as Command).ChangeCanExecute();
+            }
+            get
+            {
+                return curtainConnected;
+            }
+        }
+        private Color curtainIndicationLight;
+        public Color CurtainIndicationLight
+        {
+            private set
+            {
+                SetProperty(ref curtainIndicationLight, value);
+            }
+            get
+            {
+                return curtainIndicationLight;
+            }
+        }
+        private String curtainIndicationText;
+        public String CurtainIndicationText
+        {
+            private set
+            {
+                SetProperty(ref curtainIndicationText, value);
+            }
+            get
+            {
+                return curtainIndicationText;
+            }
+        }
+        public ICommand CurtainCommand { get; }
+        
+        /* Curtain Functions */
+        private void ConnectCurtain()
+        {
+            CurtainConnected = true;
+            Debug.WriteLine("Connected to curtain");
+        }
+        private void ToggleCurtain(string direction)
+        {
+            Debug.WriteLine("Started toggling curtain in the " + direction + " direction");
+        }
+
+        /* Light Properties */
+        private bool lightConnected;
+        public bool LightConnected
+        {
+            private set {
+                SetProperty(ref lightConnected, value);
+                LightIndicationLight = value ? Color.Green : Color.Red;
+                LightIndicationText = value ? "Connected" : "Disconnected";
+                (LightCommand as Command).ChangeCanExecute();
+            }
+            get {
+                return lightConnected;
+            }
+        }
+        private Color lightIndicationLight;
+        public Color LightIndicationLight
+        {
+            private set
+            {
+                SetProperty(ref lightIndicationLight, value);
+            }
+            get
+            {
+                return lightIndicationLight;
+            }
+        }
+        private String lightIndicationText;
+        public String LightIndicationText
+        {
+            private set
+            {
+                SetProperty(ref lightIndicationText, value);
+            }
+            get
+            {
+                return lightIndicationText;
+            }
+        }
+        public ICommand LightCommand { get; }
+
+        /* Light Functions */
+        private void ConnectLight()
+        {
+            LightConnected = true;
+            Debug.WriteLine("Connected to light");
+        }
+        private void ToggleLight()
+        {
+            Debug.WriteLine("Toggled light");
+        }
+
+        /* Main Model */
         public ControlPanelModel()
         {
             Title = "Control Panel";
+
             ConnectCommand = new Command<string>((type) =>
             {
                 switch (type)
@@ -43,7 +238,7 @@ namespace CurtainMonitor.ViewModels
             }
             , canExecute: (_) =>
             {
-                return curtainConnected;
+                return CurtainConnected;
             });
             LightCommand = new Command(execute: () =>
             {
@@ -51,47 +246,15 @@ namespace CurtainMonitor.ViewModels
             }
             , canExecute: () =>
             {
-                return lightConnected;
+                return LightConnected;
             });
+
+            IndoorConnected = false;
+            OutdoorConnected = false;
+            CurtainConnected = false;
+            LightConnected = false;
         }
         public ICommand ConnectCommand { get; }
-        public ICommand CurtainCommand { get; }
-        public ICommand LightCommand { get; }
-        private void ConnectIndoor()
-        {
-            ConnectSensor("Indoor");
-        }
-
-        private void ConnectOutdoor()
-        {
-            ConnectSensor("Outdoor");
-        }
-
-        private void ConnectSensor(string type)
-        {
-            Debug.WriteLine(type + " Sensor");
-        }
-
-        private void ConnectCurtain()
-        {
-            curtainConnected = true;
-            Debug.WriteLine("Connected to curtain");
-        }
-        private void ToggleCurtain(string direction)
-        {
-            Debug.WriteLine("Started toggling curtain in the " + direction + " direction");
-        }
-
-        private void ConnectLight()
-        {
-            lightConnected = true;
-            Debug.WriteLine("Connected to light");
-        }
-
-        private void ToggleLight()
-        {
-            Debug.WriteLine("Toggled light");
-        }
 
     }
 }

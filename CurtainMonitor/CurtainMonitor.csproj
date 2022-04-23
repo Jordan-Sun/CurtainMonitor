@@ -17,5 +17,8 @@
     <Compile Update="Views\ControlPanel.xaml.cs">
       <DependentUpon>ControlPanel.xaml</DependentUpon>
     </Compile>
+    <Compile Update="Views\NewConnectionPage.xaml.cs">
+      <DependentUpon>NewConnectionPage.xaml</DependentUpon>
+    </Compile>
   </ItemGroup>
 </Project>

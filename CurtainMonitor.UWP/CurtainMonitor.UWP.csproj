@@ -104,6 +104,10 @@
     </AppxManifest>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="brightness.png" />
+    <Content Include="curtain-lower.png" />
+    <Content Include="curtain-raise.png" />
+    <Content Include="light.png" />
     <Content Include="Properties\Default.rd.xml" />
     <Content Include="Assets\LargeTile.scale-100.png" />
     <Content Include="Assets\LargeTile.scale-200.png" />
@@ -132,7 +136,6 @@
     <Content Include="Assets\Wide310x150Logo.scale-100.png" />
     <Content Include="Assets\Wide310x150Logo.scale-200.png" />
     <Content Include="Assets\Wide310x150Logo.scale-400.png" />
-    <Content Include="xamarin_logo.png" />
     <Content Include="icon_about.png" />
     <Content Include="icon_feed.png" />
   </ItemGroup>
