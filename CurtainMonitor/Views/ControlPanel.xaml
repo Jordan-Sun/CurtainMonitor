@@ -170,13 +170,13 @@
             <Label Grid.Row="0" Grid.Column="2" x:Name="MaxValueLabel" BindingContext="{x:Reference Name=RangeSlider}" Text="{Binding MaximumValue, StringFormat='{0}'}" VerticalOptions="End" HorizontalOptions="Start" FontSize="Medium" />
 
             <Image Grid.Row="1" Grid.Column="0" VerticalOptions="Center" HorizontalOptions="End" Source="brightness.png" HeightRequest="40" WidthRequest="40" />
-            <forms:RangeSlider Grid.Row="1" Grid.Column="1" x:Name="RangeSlider" MinimumValue="0" MaximumValue="1000" LowerValue="{Binding DimThreshold, Mode=TwoWay}" UpperValue="{Binding BrightThreshold, Mode=TwoWay}" StepValue="1" StepValueContinuously="True" VerticalOptions="Center" HorizontalOptions="FillAndExpand" TextSize="Medium" />
+            <forms:RangeSlider Grid.Row="1" Grid.Column="1" x:Name="RangeSlider" MinimumValue="0" MaximumValue="1000" LowerValue="{Binding DimThreshold, Mode=TwoWay}" UpperValue="{Binding BrightThreshold, Mode=TwoWay}" StepValue="1" StepValueContinuously="True" VerticalOptions="Center" HorizontalOptions="FillAndExpand" />
         </Grid>
 
-        <ImageButton Source="curtain-raise.png" Grid.Row="3" Grid.Column="1" CornerRadius="10" x:Name="RaiseCurtainButton" Command="{Binding CurtainCommand}" CommandParameter="Raise" Released="CurtainReleased" HeightRequest="200" VerticalOptions="Center" HorizontalOptions="End" WidthRequest="{Binding Height, Source={x:Reference RaiseCurtainButton}}" />
-        <ImageButton Source="curtain-lower.png" Grid.Row="3" Grid.Column="2" CornerRadius="10" x:Name="LowerCurtainButton" Command="{Binding CurtainCommand}" CommandParameter="Lower" Released="CurtainReleased" HeightRequest="200" VerticalOptions="Center" HorizontalOptions="Start"  WidthRequest="{Binding Height, Source={x:Reference LowerCurtainButton}}" />
+		<ImageButton Source="curtain-raise.png" Grid.Row="3" Grid.Column="1" CornerRadius="10" x:Name="CurtainRaiseButton" IsEnabled="{Binding CurtainConnected}" HeightRequest="200" VerticalOptions="Center" HorizontalOptions="End" WidthRequest="{Binding Height, Source={x:Reference CurtainRaiseButton}}" />
+		<ImageButton Source="curtain-lower.png" Grid.Row="3" Grid.Column="2" CornerRadius="10" x:Name="CurtainLowerButton" IsEnabled="{Binding CurtainConnected}" HeightRequest="200" VerticalOptions="Center" HorizontalOptions="Start"  WidthRequest="{Binding Height, Source={x:Reference CurtainLowerButton}}" />
 
-        <ImageButton Source="light.png" Grid.Row="3" Grid.Column="4" CornerRadius="10" x:Name="LightButton" Command="{Binding LightCommand}" HeightRequest="200" VerticalOptions="Center" HorizontalOptions="Start" WidthRequest="{Binding Height, Source={x:Reference LightButton}}" />
+		<ImageButton Source="light.png" Grid.Row="3" Grid.Column="4" CornerRadius="10" x:Name="LightButton" Command="{Binding LightCommand}" HeightRequest="200" VerticalOptions="Center" HorizontalOptions="Start" WidthRequest="{Binding Height, Source={x:Reference LightButton}}" />
     </Grid>
 
 </ContentPage>

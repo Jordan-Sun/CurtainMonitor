@@ -5,14 +5,14 @@ namespace CurtainMonitor.Models
     [Serializable]
     public struct Timespec
     {
-        public long tv_sec;
-        public long tv_nsec;
+        public int tv_sec;
+        public int tv_nsec;
 
         public static Timespec Current()
         {
             Timespec ts = new Timespec();
-            ts.tv_sec = DateTime.Now.Ticks / 10000000;
-            ts.tv_nsec = (DateTime.Now.Ticks % 10000000) * 100;
+            ts.tv_sec = (int)(DateTime.Now.Ticks / 10000000);
+            ts.tv_nsec = (int)(DateTime.Now.Ticks % 10000000 * 100);
             return ts;
         }
         

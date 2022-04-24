@@ -1,8 +1,6 @@
 ﻿using CurtainMonitor.Models;
 using System;
-using System.IO;
 using System.Runtime.Serialization;
-using System.Runtime.Serialization.Formatters.Binary;
 using System.Net.Sockets;
 using System.Diagnostics;
 
@@ -11,12 +9,13 @@ namespace CurtainMonitor.Services
     internal enum CurtainState
     {
         Stop = -1,
-        Raise = 0,
-        Lower = 1,
+        Lower = 0,
+        Raise = 1,
     }
     public class CurtainTcpClient : IClient
     {
         private TcpClient client;
+        private NetworkStream stream;
         public bool IsConnected
         {
             get
@@ -34,6 +33,7 @@ namespace CurtainMonitor.Services
         public CurtainTcpClient()
         {
             client = null;
+            stream = null;
             sequence = 0;
             state = CurtainState.Stop;
         }
@@ -43,6 +43,7 @@ namespace CurtainMonitor.Services
             try
             {
                 client = new TcpClient(server, port);
+                stream = client.GetStream();
                 sequence = 0;
                 state = CurtainState.Stop;
                 Debug.WriteLine("Connected to curtain at " + server + " on port " + port);
@@ -61,30 +62,23 @@ namespace CurtainMonitor.Services
 
         private void Send(CurtainPacket packet)
         {
-            NetworkStream stream = client.GetStream();
-            BinaryFormatter formatter = new BinaryFormatter();
             try
             {
-                formatter.Serialize(stream, packet);
+                CurtainPacket.SendPacket(stream, packet);
             }
-            catch (SerializationException e)
+            catch (Exception e)
             {
                 Debug.WriteLine("Failed to serialize. Reason: " + e.Message);
-                throw;
-            }
-            finally
-            {
-                stream.Close();
+                stream?.Close();
+                client?.Close();
+                client = null;
+                Recipient?.OnControllerStatusChanged();
             }
         }
         
         public void Raise(int turns = alwaysTurn)
         {
-            if (turns <= 0)
-            {
-                return;
-            }
-            if (client.Connected && state != CurtainState.Raise)
+            if (IsConnected && state != CurtainState.Raise)
             {
                 Send(new CurtainPacket()
                 {
@@ -98,17 +92,13 @@ namespace CurtainMonitor.Services
         }
         public void Lower(int turns = alwaysTurn)
         {
-            if (turns <= 0)
-            {
-                return;
-            }
-            if (client.Connected && state != CurtainState.Lower)
+            if (IsConnected && state != CurtainState.Lower)
             {
                 Send(new CurtainPacket()
                 {
                     timestamp = Timespec.Current(),
                     sequence = ++sequence,
-                    direction = (int)CurtainState.Stop,
+                    direction = (int) CurtainState.Lower,
                     turns = turns
                 });
                 state = CurtainState.Lower;
@@ -116,13 +106,13 @@ namespace CurtainMonitor.Services
         }
         public void Stop()
         {
-            if (client.Connected && state != CurtainState.Stop)
+            if (IsConnected && state != CurtainState.Stop)
             {
                 Send(new CurtainPacket()
                 {
                     timestamp = Timespec.Current(),
                     sequence = ++sequence,
-                    direction = (int)CurtainState.Stop,
+                    direction = (int) CurtainState.Raise,
                     turns = stopTurn
                 });
                 state = CurtainState.Stop;
@@ -131,10 +121,8 @@ namespace CurtainMonitor.Services
 
         ~CurtainTcpClient()
         {
-            if (client != null)
-            {
-                client.Close();
-            }
+            stream?.Close();
+            client?.Close();
         }
     }
 }

@@ -37,12 +37,12 @@ namespace CurtainMonitor.Services
 
         public bool CanAutoControl
         {
-            get {  return (Indoor.IsConnected && Outdoor.IsConnected && Curtain.IsConnected); }
+            get {  return Indoor.IsConnected && Outdoor.IsConnected && Curtain.IsConnected; }
         }
         public bool ManualMode;
         public bool AutoControl
         {
-            get { return (CanAutoControl && !ManualMode); }
+            get { return CanAutoControl && !ManualMode; }
         }
         
         public CommunicationController()
@@ -61,6 +61,7 @@ namespace CurtainMonitor.Services
         }
         private void DoAutoControl()
         {
+            Debug.WriteLine("Auto Controlling with Dim Threshold: " + DimThreshold + " Bright Threshold: " + BrightThreshold + " Indoor Lux: " + Indoor.Visible + " Outdoor Lux: " + Outdoor.Visible);
             if (Indoor.Visible <= DimThreshold)
             {
                 /* Dim Indoor */

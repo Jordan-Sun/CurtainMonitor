@@ -111,7 +111,6 @@ namespace CurtainMonitor.ViewModels
                 SetProperty(ref curtainConnected, value);
                 CurtainIndicationLight = value ? Color.Green : Color.Red;
                 CurtainIndicationText = value ? "Connected" : "Disconnected";
-                (CurtainCommand as Command).ChangeCanExecute();
             }
             get
             {
@@ -142,8 +141,7 @@ namespace CurtainMonitor.ViewModels
                 return curtainIndicationText;
             }
         }
-        public ICommand CurtainCommand { get; }
-        
+
         /* Curtain Functions */
         private async void ConnectCurtain()
         {
@@ -167,6 +165,18 @@ namespace CurtainMonitor.ViewModels
                     break;
             }
             Debug.WriteLine("Started toggling curtain in the " + direction + " direction");
+        }
+        public void OnCurtainRaisePressed(object sender, EventArgs e)
+        {
+            ToggleCurtain("Raise");
+        }
+        public void OnCurtainLowerPressed(object sender, EventArgs e)
+        {
+            ToggleCurtain("Lower");
+        }
+        public void OnCurtainReleased(object sender, EventArgs e)
+        {
+            ToggleCurtain("Stop");
         }
 
         /* Light Properties */
@@ -227,26 +237,33 @@ namespace CurtainMonitor.ViewModels
             OutdoorConnected = Controller.Outdoor.IsConnected;
             CurtainConnected = Controller.Curtain.IsConnected;
             LightConnected = Controller.Light.IsConnected;
+            CanAutoControl = Controller.CanAutoControl;
         }
 
         /* Auto/Manual Control Properties */
         public bool AutoMode
         {
+            private set
+            {
+                SetProperty(ref Controller.ManualMode, !value);
+                AutoModeText = value ? "Auto" : "Manual";
+            }
             get
             {
                 return !Controller.ManualMode;
             }
-            set
-            {
-                SetProperty(ref Controller.ManualMode, !value);
-                AutoModeText = value ? "Auto" : "Manual" ;
-            }
         }
+
+        private bool canAutoControl;
         public bool CanAutoControl
         {
+            private set
+            {
+                SetProperty(ref canAutoControl, value);
+            }
             get
             {
-                return Controller.CanAutoControl;
+                return canAutoControl;
             }
         }
         private string autoModeText;
@@ -289,6 +306,7 @@ namespace CurtainMonitor.ViewModels
                 SetProperty(ref brightThreshold, value);
             }
         }
+        public ICommand ConnectCommand { get; }
 
         /* Main Model */
         public ControlPanelModel()
@@ -316,14 +334,6 @@ namespace CurtainMonitor.ViewModels
                         throw new NotSupportedException();
                 }
             });
-            CurtainCommand = new Command<string>(execute: (direction) =>
-            {
-                ToggleCurtain(direction);
-            }
-            , canExecute: (_) =>
-            {
-                return CurtainConnected;
-            });
             LightCommand = new Command(execute: () =>
             {
                 ToggleLight();
@@ -336,14 +346,11 @@ namespace CurtainMonitor.ViewModels
             AutoMode = false;
             DimThreshold = 300;
             BrightThreshold = 500;
-            IndoorConnected = Controller.Indoor.IsConnected;
-            OutdoorConnected = Controller.Outdoor.IsConnected;
-            CurtainConnected = Controller.Curtain.IsConnected;
-            LightConnected = Controller.Light.IsConnected;
+            OnControllerStatusChanged();
 
             Controller.Recipient = this;
         }
-        public ICommand ConnectCommand { get; }
+
 
     }
 }

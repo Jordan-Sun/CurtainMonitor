@@ -6,12 +6,14 @@ using System.Runtime.Serialization.Formatters.Binary;
 using System.Net.Sockets;
 using Xamarin.Forms;
 using System.Diagnostics;
+using System.Threading.Tasks;
 
 namespace CurtainMonitor.Services
 {
     public class SensorTcpClient : IClient
     {
         private TcpClient client;
+        private NetworkStream stream;
         private SensorPacket? lastReceived;
         private Timespec? latency;
         private ISensorController controller;
@@ -57,11 +59,16 @@ namespace CurtainMonitor.Services
         public SensorTcpClient(ISensorController source)
         {
             client = null;
+            stream = null;
             controller = source;
         }
 
         ~SensorTcpClient()
         {
+            if (stream != null)
+            {
+                stream.Close();
+            }
             if (client != null)
             {
                 client.Close();
@@ -73,22 +80,32 @@ namespace CurtainMonitor.Services
             try
             {
                 client = new TcpClient(server, port);
-                Device.StartTimer(new TimeSpan(0, 0, 1), () =>
+                stream = client.GetStream();
+                Task.Factory.StartNew( async() =>
                 {
-                    /* read from sensor every second */
-                    try
+                    DateTime expire = DateTime.Now;
+                    do
                     {
-                        Read();
-                        return true; /* run again */
-                    }
-                    catch
-                    {
-                        /* failed to read from sensor, probably disconnected */
-                        client.Close();
-                        client = null;
-                        Recipient?.OnControllerStatusChanged();
-                        return false; /* stop */
-                    }
+                        try
+                        {
+                            Read();
+                            expire = expire.AddSeconds(1);
+                            if (expire < DateTime.Now)
+                            {
+                                expire = DateTime.Now.AddSeconds(1);
+                            }
+                            await Task.Delay(expire - DateTime.Now);
+                        }
+                        catch (Exception e)
+                        {
+                            /* failed to read from sensor, probably disconnected */
+                            Debug.WriteLine("Failed to read. Reason: " + e.Message);
+                            client.Close();
+                            client = null;
+                            Recipient?.OnControllerStatusChanged();
+                            break;
+                        }
+                    } while (true);
                 });
                 Debug.WriteLine("Connected to sensor at " + server + " on port " + port);
                 return true;
@@ -106,11 +123,10 @@ namespace CurtainMonitor.Services
 
         public void Read()
         {
-            NetworkStream stream = client.GetStream();
-            BinaryFormatter formatter = new BinaryFormatter();
             try
             {
-                SensorPacket packet = (SensorPacket) formatter.Deserialize(stream);
+                SensorPacket packet = SensorPacket.ReadPacket(stream);
+                Debug.WriteLine("Time: " + packet.timestamp.tv_sec + "." + packet.timestamp.tv_nsec + " Seq: " + packet.sequence + " Full: " + packet.full + " Infrared: " + packet.infrared + " Visible: " + packet.visible);
                 if (lastReceived is SensorPacket lastReceivedPacket)
                 {
                     latency = packet.timestamp - lastReceivedPacket.timestamp;
@@ -118,14 +134,10 @@ namespace CurtainMonitor.Services
                 lastReceived = packet;
                 controller.OnNewData();
             }
-            catch (SerializationException e)
+            catch (Exception e)
             {
                 Debug.WriteLine("Failed to deserialize. Reason: " + e.Message);
                 throw;
-            }
-            finally
-            {
-                stream.Close();
             }
         }
     }

@@ -1,4 +1,4 @@
-﻿using System;
+﻿using System.Diagnostics;
 using System.ComponentModel;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -10,10 +10,17 @@ namespace CurtainMonitor.Views
         public ControlPanel()
         {
             InitializeComponent();
-        }
-        private void CurtainReleased(object sender, EventArgs e)
-        {
-            Console.WriteLine("Stopped toggling curtain");
+            if (BindingContext is ViewModels.ControlPanelModel model)
+            {
+                CurtainRaiseButton.Pressed += model.OnCurtainRaisePressed;
+                CurtainRaiseButton.Released += model.OnCurtainReleased;
+                CurtainLowerButton.Pressed += model.OnCurtainLowerPressed;
+                CurtainLowerButton.Released += model.OnCurtainReleased;
+            }
+            else
+            {
+                Debug.WriteLine("Binding context is not control panel model");
+            }
         }
     }
 }

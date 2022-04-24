@@ -53,6 +53,10 @@ namespace CurtainMonitor.Services
 
         public async Task Toggle(bool? toState = null)
         {
+            if (client is null)
+            {
+                return;
+            }
             bool previousState = isOn;
             isOn = toState ?? (!isOn);
             string json = "{\"on\":{\"on\":" + (isOn ? "true" : "false")+ "}}";
