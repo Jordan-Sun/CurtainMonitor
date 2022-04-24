@@ -243,7 +243,7 @@ namespace CurtainMonitor.ViewModels
         /* Auto/Manual Control Properties */
         public bool AutoMode
         {
-            private set
+            set
             {
                 SetProperty(ref Controller.ManualMode, !value);
                 AutoModeText = value ? "Auto" : "Manual";
