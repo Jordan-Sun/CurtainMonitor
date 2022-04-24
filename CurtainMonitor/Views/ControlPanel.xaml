@@ -20,11 +20,11 @@
 
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="80" />
+            <RowDefinition Height="160" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
             <RowDefinition Height="*" />
-            <RowDefinition Height="80" />
+            <RowDefinition Height="160" />
         </Grid.RowDefinitions>
 
         <Grid.ColumnDefinitions>
@@ -35,6 +35,21 @@
             <ColumnDefinition Width="*" />
             <ColumnDefinition Width="80" />
         </Grid.ColumnDefinitions>
+
+
+        <Grid Grid.Row="0" Grid.Column="4" RowSpacing="5" ColumnSpacing="5" VerticalOptions="Center" HorizontalOptions="Center" >
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <Label Grid.Row="0" Grid.Column="0" Text="{Binding AutoModeText}" VerticalOptions="Center" HorizontalOptions="End" />
+            <Switch Grid.Row="0" Grid.Column="1" IsToggled="{Binding AutoMode, Mode=TwoWay}" IsEnabled="{Binding CanAutoControl}" VerticalOptions="Center" HorizontalOptions="Start" />
+        </Grid>
 
         <Grid Grid.Row="1" Grid.Column="1" RowSpacing="5" ColumnSpacing="5" VerticalOptions="Center" HorizontalOptions="Center" >
             <Grid.RowDefinitions>
@@ -155,7 +170,7 @@
             <Label Grid.Row="0" Grid.Column="2" x:Name="MaxValueLabel" BindingContext="{x:Reference Name=RangeSlider}" Text="{Binding MaximumValue, StringFormat='{0}'}" VerticalOptions="End" HorizontalOptions="Start" FontSize="Medium" />
 
             <Image Grid.Row="1" Grid.Column="0" VerticalOptions="Center" HorizontalOptions="End" Source="brightness.png" HeightRequest="40" WidthRequest="40" />
-            <forms:RangeSlider Grid.Row="1" Grid.Column="1" x:Name="RangeSlider" MinimumValue="0" MaximumValue="1000" LowerValue="300" UpperValue="500" StepValue="1" StepValueContinuously="True" VerticalOptions="Center" HorizontalOptions="FillAndExpand" TextSize="Medium" />
+            <forms:RangeSlider Grid.Row="1" Grid.Column="1" x:Name="RangeSlider" MinimumValue="0" MaximumValue="1000" LowerValue="{Binding DimThreshold, Mode=TwoWay}" UpperValue="{Binding BrightThreshold, Mode=TwoWay}" StepValue="1" StepValueContinuously="True" VerticalOptions="Center" HorizontalOptions="FillAndExpand" TextSize="Medium" />
         </Grid>
 
         <ImageButton Source="curtain-raise.png" Grid.Row="3" Grid.Column="1" CornerRadius="10" x:Name="RaiseCurtainButton" Command="{Binding CurtainCommand}" CommandParameter="Raise" Released="CurtainReleased" HeightRequest="200" VerticalOptions="Center" HorizontalOptions="End" WidthRequest="{Binding Height, Source={x:Reference RaiseCurtainButton}}" />

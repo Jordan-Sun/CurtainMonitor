@@ -151,6 +151,21 @@ namespace CurtainMonitor.ViewModels
         }
         private void ToggleCurtain(string direction)
         {
+            AutoMode = false;
+            switch (direction)
+            {
+                case "Raise":
+                    Controller.Curtain.Raise();
+                    break;
+                case "Lower":
+                    Controller.Curtain.Lower();
+                    break;
+                case "Stop":
+                    Controller.Curtain.Stop();
+                    break;
+                default:
+                    break;
+            }
             Debug.WriteLine("Started toggling curtain in the " + direction + " direction");
         }
 
@@ -199,8 +214,10 @@ namespace CurtainMonitor.ViewModels
         {
             await Shell.Current.GoToAsync($"{nameof(NewConnectionPage)}?{nameof(NewConnectionViewModel.ClientId)}=Light");
         }
-        private void ToggleLight()
+        private async void ToggleLight()
         {
+            AutoMode = false;
+            await Controller.Light.Toggle();
             Debug.WriteLine("Toggled light");
         }
 
@@ -210,6 +227,67 @@ namespace CurtainMonitor.ViewModels
             OutdoorConnected = Controller.Outdoor.IsConnected;
             CurtainConnected = Controller.Curtain.IsConnected;
             LightConnected = Controller.Light.IsConnected;
+        }
+
+        /* Auto/Manual Control Properties */
+        public bool AutoMode
+        {
+            get
+            {
+                return !Controller.ManualMode;
+            }
+            set
+            {
+                SetProperty(ref Controller.ManualMode, !value);
+                AutoModeText = value ? "Auto" : "Manual" ;
+            }
+        }
+        public bool CanAutoControl
+        {
+            get
+            {
+                return Controller.CanAutoControl;
+            }
+        }
+        private string autoModeText;
+        public string AutoModeText
+        {
+            private set
+            {
+                SetProperty(ref autoModeText, value);
+            }
+            get
+            {
+                return autoModeText;
+            }
+        }
+
+        /* Dim/Bright Threshold Properties */
+        private int dimThreshold;
+        public int DimThreshold
+        {
+            get
+            {
+                return dimThreshold;
+            }
+            set
+            {
+                Controller.DimThreshold = value;
+                SetProperty(ref dimThreshold, value);
+            }
+        }
+        private int brightThreshold;
+        public int BrightThreshold
+        {
+            get
+            {
+                return brightThreshold;
+            }
+            set
+            {
+                Controller.BrightThreshold = value;
+                SetProperty(ref brightThreshold, value);
+            }
         }
 
         /* Main Model */
@@ -255,6 +333,9 @@ namespace CurtainMonitor.ViewModels
                 return LightConnected;
             });
 
+            AutoMode = false;
+            DimThreshold = 300;
+            BrightThreshold = 500;
             IndoorConnected = Controller.Indoor.IsConnected;
             OutdoorConnected = Controller.Outdoor.IsConnected;
             CurtainConnected = Controller.Curtain.IsConnected;

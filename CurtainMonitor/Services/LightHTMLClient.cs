@@ -4,18 +4,19 @@ using System.Collections.Generic;
 using System.Text;
 using System.Net.Http;
 using System.Diagnostics;
+using System.Threading.Tasks;
 
 namespace CurtainMonitor.Services
 {
     public class LightHTMLClient : IClient
     {
         public HttpClient client;
-        private bool isConnected;
+        private bool isOn;
         public bool IsConnected
         {
             get
             {
-                return isConnected;
+                return (client != null);
             }
         }
 
@@ -23,22 +24,24 @@ namespace CurtainMonitor.Services
 
         public LightHTMLClient()
         {
-            client = new HttpClient();
-            isConnected = false;
+            client = null;
+            isOn = false;
         }
 
         public bool Connect(string server, int _)
         {
             try
             {
+                client = new HttpClient();
                 client.BaseAddress = new Uri(server);
-                isConnected = true;
+                isOn = false;
                 Debug.WriteLine("Connected to light at " + server);
                 return true;
             }
             catch (Exception e)
             {
-                isConnected = false;
+                client = null;
+                isOn = false;
                 Debug.WriteLine("Failed to resolve uri. Reason: " + e.Message);
                 return false;
             }
@@ -47,5 +50,22 @@ namespace CurtainMonitor.Services
                 Recipient?.OnControllerStatusChanged();
             }
         }
-    }
+
+        public async Task Toggle(bool? toState = null)
+        {
+            bool previousState = isOn;
+            isOn = toState ?? (!isOn);
+            string json = "{\"on\":{\"on\":" + (isOn ? "true" : "false")+ "}}";
+            try
+            {
+                HttpContent content = new StringContent(json, Encoding.UTF8, "application/json");
+                await client.PutAsync(client.BaseAddress, content);
+            }
+            catch (Exception e)
+            {
+                isOn = previousState;
+                Debug.WriteLine("Failed to toggle light. Reason: " + e.Message);
+            }
+        }
+    }            
 }
