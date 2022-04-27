@@ -222,13 +222,12 @@ namespace CurtainMonitor.ViewModels
         /* Light Functions */
         private async void ConnectLight()
         {
-            await Shell.Current.GoToAsync($"{nameof(NewConnectionPage)}?{nameof(NewConnectionViewModel.ClientId)}=Light");
+            await Shell.Current.GoToAsync($"{nameof(NewBridgeConnectionPage)}");
         }
         private async void ToggleLight()
         {
             AutoMode = false;
             await Controller.Light.Toggle();
-            Debug.WriteLine("Toggled light");
         }
 
         public void OnControllerStatusChanged()

@@ -7,39 +7,33 @@ using Xamarin.Forms;
 
 namespace CurtainMonitor.ViewModels
 {
-    [QueryProperty("ClientId", "ClientId")]
-    public class NewConnectionViewModel : BaseViewModel
+    public class NewBridgeConnectionViewModel : BaseViewModel
     {
         private string host;
-        private string port;
+        private string user;
 
-        private IClient client;
-        private string clientId;
-        public string ClientId
-        {
-            get
-            {
-                return clientId;
-            }
-            set
-            {
-                clientId = value;
-                client = Controller.GetClient(value);
-            }
-        }
+        private LightHTMLClient client;
 
-        public NewConnectionViewModel()
+        public NewBridgeConnectionViewModel()
         {
+            client = Controller.Light;
             SaveCommand = new Command(OnSave, ValidateSave);
+            NewUserCommand = new Command(OnNewUser, ValidateNewUser);
             CancelCommand = new Command(OnCancel);
             this.PropertyChanged +=
                 (_, __) => SaveCommand.ChangeCanExecute();
+            this.PropertyChanged +=
+                (_, __) => NewUserCommand.ChangeCanExecute();
         }
 
+        private bool ValidateNewUser()
+        {
+            return !String.IsNullOrWhiteSpace(host);
+        }
+        
         private bool ValidateSave()
         {
-            return !String.IsNullOrWhiteSpace(host)
-                && Int32.TryParse(port, out _);
+            return !String.IsNullOrWhiteSpace(host) && !String.IsNullOrWhiteSpace(user);
         }
         
         public string Text
@@ -47,14 +41,14 @@ namespace CurtainMonitor.ViewModels
             get => host;
             set => SetProperty(ref host, value);
         }
-
         public string Description
         {
-            get => port;
-            set => SetProperty(ref port, value);
+            get => user;
+            set => SetProperty(ref user, value);
         }
 
         public Command SaveCommand { get; }
+        public Command NewUserCommand { get; }
         public Command CancelCommand { get; }
 
         private async void OnCancel()
@@ -62,10 +56,25 @@ namespace CurtainMonitor.ViewModels
             // This will pop the current page off the navigation stack
             await Shell.Current.GoToAsync("..");
         }
-        
+
+        private async void OnNewUser()
+        {
+            client.Connect(host);
+            string response = await client.NewUser();
+            if (response.Equals("Link Button Not Pressed"))
+            {
+                await Shell.Current.DisplayAlert("Error", "Please press the link button and try again.", "OK");
+            }
+            else
+            {
+                Description = response;
+            }
+        }
+
         private async void OnSave()
         {
-            client.Connect(host, Int32.Parse(port));
+            client.Connect(host);
+            client.Username = Description;
             // This will pop the current page off the navigation stack
             await Shell.Current.GoToAsync("..");
         }

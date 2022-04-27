@@ -69,6 +69,7 @@ namespace CurtainMonitor.Services
                 {
                     /* Dim Outdoor */
                     Curtain.Stop();
+                    System.Threading.Tasks.Task.Run(() => Light.Toggle(true));
                 }
                 else
                 {
@@ -79,6 +80,7 @@ namespace CurtainMonitor.Services
             else if (Indoor.Visible > BrightThreshold)
             {
                 /* Bright Indoor */
+                System.Threading.Tasks.Task.Run(() => Light.Toggle(false));
                 if (Outdoor.Visible <= DimThreshold)
                 {
                     /* Dim Outdoor */
@@ -114,8 +116,6 @@ namespace CurtainMonitor.Services
                     return Outdoor;
                 case "Curtain":
                     return Curtain;
-                case "Light":
-                    return Light;
                 default:
                     return null;
             }

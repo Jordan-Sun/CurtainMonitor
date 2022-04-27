@@ -12,6 +12,7 @@ namespace CurtainMonitor
         {
             InitializeComponent();
             Routing.RegisterRoute(nameof(NewConnectionPage), typeof(NewConnectionPage));
+            Routing.RegisterRoute(nameof(NewBridgeConnectionPage), typeof(NewBridgeConnectionPage));
         }
 
         private async void OnMenuItemClicked(object sender, EventArgs e)

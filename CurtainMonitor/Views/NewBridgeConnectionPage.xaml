@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="CurtainMonitor.Views.NewBridgeConnectionPage"
+             Shell.PresentationMode="ModalAnimated"
+             Title="New Item"
+             xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
+             ios:Page.UseSafeArea="true">
+    <ContentPage.Content>
+        <StackLayout Spacing="20" Padding="20" VerticalOptions="Center" HorizontalOptions="FillAndExpand">
+            <Label Text="IP" FontSize="Medium" />
+            <Editor Text="{Binding Text, Mode=TwoWay}" AutoSize="TextChanges" FontSize="Medium" Margin="0" />
+            <Label Text="User" FontSize="Medium" />
+            <Editor Text="{Binding Description, Mode=TwoWay}" AutoSize="TextChanges" FontSize="Medium" Margin="0" />
+            <StackLayout Spacing="10" Padding="10" Orientation="Horizontal">
+                <Button Text="Cancel" Command="{Binding CancelCommand}" CornerRadius="10" FontSize="Medium" HorizontalOptions="FillAndExpand"></Button>
+                <Button Text="New User" Command="{Binding NewUserCommand}" CornerRadius="10" FontSize="Medium" HorizontalOptions="FillAndExpand"></Button>
+                <Button Text="OK" Command="{Binding SaveCommand}" CornerRadius="10" FontSize="Medium" HorizontalOptions="FillAndExpand"></Button>
+            </StackLayout>
+        </StackLayout>
+    </ContentPage.Content>
+    
+</ContentPage>

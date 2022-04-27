@@ -6,6 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
     <PackageReference Include="System.Net.Sockets" Version="4.3.0" />
     <PackageReference Include="Xamarin.Forms" Version="5.0.0.2401" />  
     <PackageReference Include="Xamarin.Essentials" Version="1.7.2" />  
@@ -16,6 +17,9 @@
   <ItemGroup>
     <Compile Update="Views\ControlPanel.xaml.cs">
       <DependentUpon>ControlPanel.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\NewBridgeConnectionPage.xaml.cs">
+      <DependentUpon>NewBridgeConnectionPage.xaml</DependentUpon>
     </Compile>
     <Compile Update="Views\NewConnectionPage.xaml.cs">
       <DependentUpon>NewConnectionPage.xaml</DependentUpon>
