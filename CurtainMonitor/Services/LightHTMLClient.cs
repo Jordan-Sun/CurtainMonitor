@@ -51,7 +51,7 @@ namespace CurtainMonitor.Services
             {
                 Client = new HttpClient();
                 Client.BaseAddress = new Uri("http://" + server + "/");
-                isOn = false;
+                isOn = true;
                 Debug.WriteLine("Connected to light at " + server);
                 return true;
             }

@@ -245,6 +245,7 @@ namespace CurtainMonitor.ViewModels
             set
             {
                 SetProperty(ref Controller.ManualMode, !value);
+                Controller.Curtain.Stop();
                 AutoModeText = value ? "Auto" : "Manual";
             }
             get
@@ -343,8 +344,8 @@ namespace CurtainMonitor.ViewModels
             });
 
             AutoMode = false;
-            DimThreshold = 300;
-            BrightThreshold = 500;
+            DimThreshold = 50;
+            BrightThreshold = 400;
             OnControllerStatusChanged();
 
             Controller.Recipient = this;

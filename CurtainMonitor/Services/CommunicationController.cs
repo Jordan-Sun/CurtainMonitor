@@ -80,16 +80,17 @@ namespace CurtainMonitor.Services
             else if (Indoor.Visible > BrightThreshold)
             {
                 /* Bright Indoor */
-                if (Outdoor.Visible <= DimThreshold)
+                if (Outdoor.Visible > BrightThreshold)
                 {
-                    /* Dim Outdoor */
-                    Curtain.Stop();
+                    /* Bright Outdoor */
+                    Curtain.Lower();
                 }
                 else
                 {
-                    /* Comfort or Bright Outdoor */
-                    Curtain.Lower();
+                    /* Comfort or Dim Outdoor */
+                    Curtain.Stop();
                     System.Threading.Tasks.Task.Run(() => Light.Toggle(false));
+
                 }
             }
             else
